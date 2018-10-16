@@ -19,7 +19,7 @@ import java.net.UnknownHostException;
 
 @Configuration
 @EnableElasticsearchRepositories(basePackages = "pl.emgie.ocaexamquestionsapp.repository")
-public class ElasticsearchConnectionConfiguration {
+class ElasticsearchConnectionConfiguration {
 
     Logger logger = LoggerFactory.getLogger(ElasticsearchConnectionConfiguration.class);
 
@@ -27,7 +27,7 @@ public class ElasticsearchConnectionConfiguration {
     private String elasticsearchHost;
     private int elasticsearchPort;
 
-    public ElasticsearchConnectionConfiguration(@Value("${elasticsearch.cluster.name}") String clusterName,
+    ElasticsearchConnectionConfiguration(@Value("${elasticsearch.cluster.name}") String clusterName,
                                                 @Value("${elasticsearch.host}") String elasticsearchHost,
                                                 @Value("${elasticsearch.port}") int elasticsearchPort) {
         this.clusterName = clusterName;
@@ -36,7 +36,7 @@ public class ElasticsearchConnectionConfiguration {
     }
 
     @Bean
-    public Client client() {
+    Client client() {
 
         Settings elasticsearchSettings = Settings.builder()
                 .put("client.transport.sniff", true)
@@ -52,7 +52,7 @@ public class ElasticsearchConnectionConfiguration {
     }
 
     @Bean
-    public ElasticsearchOperations elasticsearchTemplate() {
+    ElasticsearchOperations elasticsearchTemplate() {
         ElasticsearchTemplate template = new ElasticsearchTemplate(client());
         return template;
     }
