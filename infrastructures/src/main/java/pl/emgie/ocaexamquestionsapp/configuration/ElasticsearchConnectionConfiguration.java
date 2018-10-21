@@ -18,32 +18,28 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 @Configuration
-@EnableElasticsearchRepositories(basePackages = "pl.emgie.ocaexamquestionsapp.repository")
-public class ElasticsearchConnectionConfiguration {
+@EnableElasticsearchRepositories(basePackages = "pl.emgie.ocaexamquestionsapp.")
+class ElasticsearchConnectionConfiguration {
 
     Logger logger = LoggerFactory.getLogger(ElasticsearchConnectionConfiguration.class);
 
-   private String clusterName;
-   private String elasticsearchHome;
-   private String elasticsearchHost;
-   private int elasticsearchPort;
+    private String clusterName;
+    private String elasticsearchHost;
+    private int elasticsearchPort;
 
-    public ElasticsearchConnectionConfiguration(@Value("${elasticsearch.cluster.name}") String clusterName,
-                                                @Value("${elasticsearch.path.home}") String elasticsearchHome,
-    @Value("${elasticsearch.host}") String elasticsearchHost,
-                                                        @Value("${elasticsearch.port}") int elasticsearchPort) {
+    ElasticsearchConnectionConfiguration(@Value("${elasticsearch.cluster.name}") String clusterName,
+                                         @Value("${elasticsearch.host}") String elasticsearchHost,
+                                         @Value("${elasticsearch.port}") int elasticsearchPort) {
         this.clusterName = clusterName;
-        this.elasticsearchHome = elasticsearchHome;
         this.elasticsearchHost = elasticsearchHost;
         this.elasticsearchPort = elasticsearchPort;
     }
 
     @Bean
-    public Client client() {
+    Client client() {
 
         Settings elasticsearchSettings = Settings.builder()
-                .put("client.transport.sniff", true)
-                .put("path.home", elasticsearchHome)
+//                .put("client.transport.sniff", true)
                 .put("cluster.name", clusterName)
                 .build();
         TransportClient client = new PreBuiltTransportClient(elasticsearchSettings);
@@ -56,8 +52,9 @@ public class ElasticsearchConnectionConfiguration {
     }
 
     @Bean
-    public ElasticsearchOperations elasticsearchTemplate() {
+    ElasticsearchOperations elasticsearchTemplate() {
         ElasticsearchTemplate template = new ElasticsearchTemplate(client());
         return template;
     }
+
 }
