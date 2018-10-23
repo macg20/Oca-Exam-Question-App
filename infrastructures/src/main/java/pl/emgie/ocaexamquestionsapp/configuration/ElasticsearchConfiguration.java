@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
@@ -17,19 +18,20 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+@Profile({"dev","prod"})
 @Configuration
 @EnableElasticsearchRepositories(basePackages = "pl.emgie.ocaexamquestionsapp.")
-class ElasticsearchConnectionConfiguration {
+class ElasticsearchConfiguration {
 
-    Logger logger = LoggerFactory.getLogger(ElasticsearchConnectionConfiguration.class);
+    Logger logger = LoggerFactory.getLogger(ElasticsearchConfiguration.class);
 
     private String clusterName;
     private String elasticsearchHost;
     private int elasticsearchPort;
 
-    ElasticsearchConnectionConfiguration(@Value("${elasticsearch.cluster.name}") String clusterName,
-                                         @Value("${elasticsearch.host}") String elasticsearchHost,
-                                         @Value("${elasticsearch.port}") int elasticsearchPort) {
+    ElasticsearchConfiguration(@Value("${elasticsearch.cluster.name}") String clusterName,
+                               @Value("${elasticsearch.host}") String elasticsearchHost,
+                               @Value("${elasticsearch.port}") int elasticsearchPort) {
         this.clusterName = clusterName;
         this.elasticsearchHost = elasticsearchHost;
         this.elasticsearchPort = elasticsearchPort;
@@ -39,7 +41,6 @@ class ElasticsearchConnectionConfiguration {
     Client client() {
 
         Settings elasticsearchSettings = Settings.builder()
-//                .put("client.transport.sniff", true)
                 .put("cluster.name", clusterName)
                 .build();
         TransportClient client = new PreBuiltTransportClient(elasticsearchSettings);

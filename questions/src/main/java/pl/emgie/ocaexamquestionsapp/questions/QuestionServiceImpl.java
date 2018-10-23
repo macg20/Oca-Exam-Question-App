@@ -51,9 +51,10 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void save(QuestionDto dto) {
+    public QuestionDto save(QuestionDto dto) {
         Question question = toDocument(dto);
-        repository.save(question);
+        question = repository.save(question);
+        return  toDto(question);
     }
 
     private QuestionDto toDto(Question question) {
