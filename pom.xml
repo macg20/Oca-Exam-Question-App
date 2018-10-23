@@ -21,8 +21,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
         <spock-groovy.version>1.2-groovy-2.5</spock-groovy.version>
+        <groovy.version>2.5.0</groovy.version>
     </properties>
 
     <modules>
@@ -76,16 +77,13 @@
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
             <version>${spock-groovy.version}</version>
-            <scope>test</scope>
+            <scope>testCompile</scope>
         </dependency>
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-spring</artifactId>
             <version>${spock-groovy.version}</version>
-            <scope>test</scope>
+            <scope>testCompile</scope>
         </dependency>
     </dependencies>
-
-
-
 </project>

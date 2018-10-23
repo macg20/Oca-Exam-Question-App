@@ -27,7 +27,7 @@ class Question {
     @Field(type = Nested, includeInParent = true)
     private List<Answer> answers;
 
-    @Field(type = Attachment)
+    @Field(type = Text)
     private List<Attachment> attachments;
 
     public String getId() {

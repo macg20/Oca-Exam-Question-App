@@ -12,5 +12,5 @@ public interface QuestionService extends BaseService{
 
     Page<QuestionDto> findByQuestionWord(Pageable pageable);
 
-    void save(QuestionDto dto);
+    QuestionDto save(QuestionDto dto);
 }
