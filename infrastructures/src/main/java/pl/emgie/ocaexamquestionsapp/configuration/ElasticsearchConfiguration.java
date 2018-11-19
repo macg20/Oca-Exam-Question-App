@@ -3,7 +3,7 @@ package pl.emgie.ocaexamquestionsapp.configuration;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-@Profile({"dev","prod"})
+@Profile({"dev", "prod"})
 @Configuration
 @EnableElasticsearchRepositories(basePackages = "pl.emgie.ocaexamquestionsapp.")
 class ElasticsearchConfiguration {
@@ -45,7 +45,7 @@ class ElasticsearchConfiguration {
                 .build();
         TransportClient client = new PreBuiltTransportClient(elasticsearchSettings);
         try {
-            client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(elasticsearchHost), elasticsearchPort));
+            client.addTransportAddress(new TransportAddress(InetAddress.getByName(elasticsearchHost), elasticsearchPort));
         } catch (UnknownHostException e) {
             logger.error(e.getMessage(), e);
         }

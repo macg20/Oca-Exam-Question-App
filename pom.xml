@@ -77,13 +77,13 @@
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
             <version>${spock-groovy.version}</version>
-            <scope>testCompile</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-spring</artifactId>
             <version>${spock-groovy.version}</version>
-            <scope>testCompile</scope>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

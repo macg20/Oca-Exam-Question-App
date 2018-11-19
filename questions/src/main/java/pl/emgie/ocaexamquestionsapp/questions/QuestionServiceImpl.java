@@ -21,11 +21,6 @@ public class QuestionServiceImpl implements QuestionService {
     private AttachmentService attachmentService;
     private QuestionRepository repository;
 
-//    @Autowired
-//    public QuestionServiceImpl(AttachmentService attachmentService, QuestionCustomRepositoryImpl repository) {
-//        this.attachmentService = attachmentService;
-//        this.repository = repository;
-//    }
 
     @Autowired
     public QuestionServiceImpl(AttachmentService attachmentService, QuestionRepository repository) {
@@ -36,7 +31,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Page<QuestionDto> findAllQuestions(Pageable pageable) {
         Page<Question> questionPage = repository.findAll(pageable);
-        return null;
+        return toPageDto(questionPage,pageable);
     }
 
     @Override
