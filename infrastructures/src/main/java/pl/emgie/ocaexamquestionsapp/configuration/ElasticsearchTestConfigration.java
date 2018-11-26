@@ -6,7 +6,7 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.client.node.NodeClient;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchProperties;
@@ -53,13 +53,13 @@ public class ElasticsearchTestConfigration {
                 .withElasticVersion(ELASTIC_VERSION)
                 .withSetting(TRANSPORT_TCP_PORT, TRANSPORT_TCP_PORT_VALUE)
                 .withSetting(CLUSTER_NAME, CLUSTER_NAME_VALUE)
-                .withStartTimeout(1, MINUTES)
+                .withStartTimeout(5, MINUTES)
                 .build()
                 .start();
         return embeddedElastic;
     }
 
-    @Bean()
+    @Bean
     @DependsOn("embeddedElastic")
     public Client client() {
         Settings elasticsearchSettings = Settings.builder()
@@ -67,7 +67,7 @@ public class ElasticsearchTestConfigration {
                 .build();
         TransportClient client = new PreBuiltTransportClient(elasticsearchSettings);
         try {
-            client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("127.0.0.1"), TRANSPORT_TCP_PORT_VALUE));
+            client.addTransportAddress(new TransportAddress(InetAddress.getByName("127.0.0.1"), TRANSPORT_TCP_PORT_VALUE));
         } catch (UnknownHostException e) {
             logger.error(e.getMessage(), e);
         }
