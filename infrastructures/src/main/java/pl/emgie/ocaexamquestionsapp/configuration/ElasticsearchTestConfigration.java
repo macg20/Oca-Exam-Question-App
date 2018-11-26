@@ -53,13 +53,13 @@ public class ElasticsearchTestConfigration {
                 .withElasticVersion(ELASTIC_VERSION)
                 .withSetting(TRANSPORT_TCP_PORT, TRANSPORT_TCP_PORT_VALUE)
                 .withSetting(CLUSTER_NAME, CLUSTER_NAME_VALUE)
-                .withStartTimeout(1, MINUTES)
+                .withStartTimeout(5, MINUTES)
                 .build()
                 .start();
         return embeddedElastic;
     }
 
-    @Bean()
+    @Bean
     @DependsOn("embeddedElastic")
     public Client client() {
         Settings elasticsearchSettings = Settings.builder()
