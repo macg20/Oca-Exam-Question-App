@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,6 +51,13 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = toDocument(dto);
         question = repository.save(question);
         return  toDto(question);
+    }
+
+    @Override
+    public void delete(String questionId) {
+       Optional<Question> question = repository.findById(questionId);
+       question.ifPresent(q-> deleteAttachments(q.getAttachments()));
+       question.ifPresent(repository::delete);
     }
 
     private QuestionDto toDto(Question question) {
@@ -111,7 +119,7 @@ public class QuestionServiceImpl implements QuestionService {
             });
             return dtos;
         }
-        return Collections.<AttachmentDto>emptyList();
+        return Collections.emptyList();
 
     }
 
@@ -120,5 +128,7 @@ public class QuestionServiceImpl implements QuestionService {
         return new PageImpl<>(dtos, pageable, source.getTotalElements());
     }
 
-
+    private void deleteAttachments(List<Attachment> attachments) {
+        attachments.forEach(e-> attachmentService.delete(e.getPath()));
+    }
 }
