@@ -29,6 +29,7 @@
     <modules>
         <module>questions</module>
         <module>infrastructures</module>
+        <module>commons</module>
     </modules>
 
     <dependencies>

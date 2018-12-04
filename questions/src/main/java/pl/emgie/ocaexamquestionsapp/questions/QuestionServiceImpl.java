@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,6 +53,13 @@ public class QuestionServiceImpl implements QuestionService {
         return  toDto(question);
     }
 
+    @Override
+    public void delete(String questionId) {
+       Optional<Question> question = repository.findById(questionId);
+       question.ifPresent(q-> deleteAttachments(q.getAttachments()));
+       question.ifPresent(repository::delete);
+    }
+
     private QuestionDto toDto(Question question) {
         QuestionDto dto = new QuestionDto();
         dto.setId(question.getId());
@@ -89,7 +97,7 @@ public class QuestionServiceImpl implements QuestionService {
         if (dtos != null) {
             List<Attachment> attachments = new ArrayList<>();
             dtos.forEach(dto -> {
-                Path attachmentPath = attachmentService.insert(dto.getContent());
+                Path attachmentPath = attachmentService.insert(dto.getName(),dto.getContent());
                 Attachment attachment = new Attachment();
                 attachment.setName(dto.getName());
                 attachment.setPath(attachmentPath.toString());
@@ -106,11 +114,12 @@ public class QuestionServiceImpl implements QuestionService {
             List<AttachmentDto> dtos = new ArrayList<>();
             attachments.forEach(attachment -> {
                 AttachmentDto attachmentDto = attachmentService.read(attachment.getPath());
+                attachment.setName(attachment.getName());
                 dtos.add(attachmentDto);
             });
             return dtos;
         }
-        return Collections.<AttachmentDto>emptyList();
+        return Collections.emptyList();
 
     }
 
@@ -119,5 +128,7 @@ public class QuestionServiceImpl implements QuestionService {
         return new PageImpl<>(dtos, pageable, source.getTotalElements());
     }
 
-
+    private void deleteAttachments(List<Attachment> attachments) {
+        attachments.forEach(e-> attachmentService.delete(e.getPath()));
+    }
 }

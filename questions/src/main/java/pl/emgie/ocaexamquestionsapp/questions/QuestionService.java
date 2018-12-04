@@ -13,4 +13,6 @@ public interface QuestionService extends BaseService{
     Page<QuestionDto> findByQuestionWord(Pageable pageable);
 
     QuestionDto save(QuestionDto dto);
+
+    void delete(String questionId) ;
 }

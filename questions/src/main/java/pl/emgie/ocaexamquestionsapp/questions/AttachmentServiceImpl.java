@@ -1,6 +1,7 @@
 package pl.emgie.ocaexamquestionsapp.questions;
 
 import org.springframework.stereotype.Service;
+import pl.emgie.ocaexamquestionsapp.exceptions.AttachmentRepositoryException;
 import pl.emgie.ocaexamquestionsapp.questions.dto.AttachmentDto;
 
 import java.io.IOException;
@@ -24,14 +25,15 @@ class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
-    public Path insert(byte[] content) {
+    public Path insert(String name, byte[] content) {
         try {
-            String fileName = repositoryPath.toString() +"\\" + UUID.randomUUID().toString();
+            String fileName = repositoryPath.toString() +"\\" +name;
             Path path = Paths.get(fileName);
             Files.createFile(path);
             return path;
         } catch (IOException e) {
-            throw new RuntimeException(e); //FIXME  change custom exception - feature
+            getLogger().error("Cannot insert attachment",e);
+            throw new AttachmentRepositoryException("Cannot insert attachment",e);
         }
     }
 
@@ -41,23 +43,34 @@ class AttachmentServiceImpl implements AttachmentService {
             byte[] content = Files.readAllBytes(Paths.get(path));
             return toDto(content);
         } catch (IOException e) {
-            throw new RuntimeException(e); //FIXME  change custom exception - feature
+            getLogger().error("Cannot read attachment",e);
+            throw new AttachmentRepositoryException("Cannot read attachment",e);
+        }
+    }
+
+    @Override
+    public void delete(String path) {
+        try {
+            Files.delete(Paths.get(path));
+        } catch (IOException e) {
+            getLogger().error("Cannot delete attachment",e);
+            throw new AttachmentRepositoryException("Cannot delete attachment",e);
         }
     }
 
     private Path generateAttachmentRepositoryPath() {
         String userdir = System.getProperty("user.home");
-        String repositoryPath = userdir + String.valueOf("\\attachments");
+        String repositoryPath = userdir + ("\\attachments");
         if (!Files.exists(Paths.get(repositoryPath))) {
             try {
                 Set<PosixFilePermission> permissions = fullyPermissions();
                 FileAttribute<Set<PosixFilePermission>> attributes = PosixFilePermissions.asFileAttribute(permissions);
-                Files.createDirectory(Paths.get(repositoryPath));
+                Files.createDirectory(Paths.get(repositoryPath),attributes);
             } catch (IOException e) {
-                throw new RuntimeException(e); //FIXME  change custom exception - feature
+                getLogger().error("Cannot initialize attachment repository" ,e);
+                throw new AttachmentRepositoryException("Cannot initialize attachment repository" ,e);
             }
         }
-
         return Paths.get(repositoryPath);
     }
 
