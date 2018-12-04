@@ -89,7 +89,7 @@ public class QuestionServiceImpl implements QuestionService {
         if (dtos != null) {
             List<Attachment> attachments = new ArrayList<>();
             dtos.forEach(dto -> {
-                Path attachmentPath = attachmentService.insert(dto.getContent());
+                Path attachmentPath = attachmentService.insert(dto.getName(),dto.getContent());
                 Attachment attachment = new Attachment();
                 attachment.setName(dto.getName());
                 attachment.setPath(attachmentPath.toString());
@@ -106,6 +106,7 @@ public class QuestionServiceImpl implements QuestionService {
             List<AttachmentDto> dtos = new ArrayList<>();
             attachments.forEach(attachment -> {
                 AttachmentDto attachmentDto = attachmentService.read(attachment.getPath());
+                attachment.setName(attachment.getName());
                 dtos.add(attachmentDto);
             });
             return dtos;

@@ -53,7 +53,7 @@ public class ElasticsearchTestConfigration {
                 .withElasticVersion(ELASTIC_VERSION)
                 .withSetting(TRANSPORT_TCP_PORT, TRANSPORT_TCP_PORT_VALUE)
                 .withSetting(CLUSTER_NAME, CLUSTER_NAME_VALUE)
-                .withStartTimeout(5, MINUTES)
+                .withStartTimeout(10, MINUTES)
                 .build()
                 .start();
         return embeddedElastic;

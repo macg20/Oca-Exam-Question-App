@@ -11,15 +11,8 @@
     </parent>
 
     <groupId>pl.emgie</groupId>
-    <artifactId>questions</artifactId>
+    <artifactId>commons</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <dependencies>
-        <dependency>
-            <groupId>pl.emgie</groupId>
-            <artifactId>commons</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-
+    
 </project>
