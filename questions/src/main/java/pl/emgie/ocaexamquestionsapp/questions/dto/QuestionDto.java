@@ -1,5 +1,6 @@
 package pl.emgie.ocaexamquestionsapp.questions.dto;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,12 +8,15 @@ public class QuestionDto {
 
     private String id;
 
+    @NotNull
     private String question;
 
     private String[] tags;
 
+    @NotNull
     private String answerId;
 
+    @NotNull
     private List<AnswerDto> answers = new ArrayList<>();
 
     private List<AttachmentDto> attachments = new ArrayList<>();

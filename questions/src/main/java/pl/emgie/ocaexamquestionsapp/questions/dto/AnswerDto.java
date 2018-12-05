@@ -1,8 +1,12 @@
 package pl.emgie.ocaexamquestionsapp.questions.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class AnswerDto {
 
+    @NotNull
     private String answerId;
+    @NotNull
     private String answer;
 
     public String getAnswerId() {
