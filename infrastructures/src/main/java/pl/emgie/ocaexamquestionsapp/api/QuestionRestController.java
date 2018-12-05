@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.emgie.ocaexamquestionsapp.questions.QuestionService;
 import pl.emgie.ocaexamquestionsapp.questions.dto.QuestionDto;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/question")
 class QuestionRestController {
@@ -35,7 +37,7 @@ class QuestionRestController {
     }
 
     @PostMapping("/")
-    ResponseEntity<?> save(@RequestBody QuestionDto dto) {
+    ResponseEntity<?> save(@RequestBody @Valid QuestionDto dto) {
         questionService.save(dto);
         return ResponseEntity.ok(HttpStatus.OK);
     }

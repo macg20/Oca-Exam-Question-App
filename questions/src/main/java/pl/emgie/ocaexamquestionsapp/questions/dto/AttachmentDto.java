@@ -1,8 +1,12 @@
 package pl.emgie.ocaexamquestionsapp.questions.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class AttachmentDto {
 
+    @NotNull
     private String name;
+    @NotNull
     private byte[] content;
 
     public String getName() {
