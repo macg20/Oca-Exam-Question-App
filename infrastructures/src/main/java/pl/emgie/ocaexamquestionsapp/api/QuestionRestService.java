@@ -16,12 +16,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/question")
-class QuestionRestController {
+class QuestionRestService {
 
     private QuestionService questionService;
 
     @Autowired
-    public QuestionRestController(QuestionService questionService) {
+    public QuestionRestService(QuestionService questionService) {
         this.questionService = questionService;
     }
 
@@ -46,6 +46,5 @@ class QuestionRestController {
         questionService.save(dto);
         return ResponseEntity.ok(HttpStatus.OK);
     }
-
 
 }
