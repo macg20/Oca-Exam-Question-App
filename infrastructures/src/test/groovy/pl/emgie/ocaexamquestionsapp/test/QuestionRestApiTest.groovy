@@ -23,7 +23,6 @@ import static pl.emgie.ocaexamquestionsapp.test.data.DummyTestData.*
 @WebMvcTest
 class QuestionRestApiTest extends Specification {
 
-
     @Autowired
     MockMvc mvc
 
@@ -63,11 +62,6 @@ class QuestionRestApiTest extends Specification {
 
     }
 
-    String toJson(QuestionDto questionDto) {
-        Gson gson = new Gson()
-        return gson.toJson(questionDto, QuestionDto.class)
-    }
-
     def findAllTest() {
         given:
         Integer page = 1
@@ -85,6 +79,11 @@ class QuestionRestApiTest extends Specification {
         result.andExpect(content().contentType("application/json;charset=UTF-8"))
         result.andDo(print())
 
+    }
+
+    String toJson(QuestionDto questionDto) {
+        Gson gson = new Gson()
+        return gson.toJson(questionDto, QuestionDto.class)
     }
 
     @TestConfiguration
