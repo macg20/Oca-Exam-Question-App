@@ -32,6 +32,7 @@
         <module>attachments</module>
         <module>commons</module>
         <module>eureka-server</module>
+        <module>gateway</module>
     </modules>
 
     <dependencies>

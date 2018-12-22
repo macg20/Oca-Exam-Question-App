@@ -1,4 +1,4 @@
-package pl.emgie.ocaexamquestionsapp.attachments;
+package pl.emgie.ocaexamquestionsapp.attachments.domain;
 
 import org.springframework.stereotype.Service;
 import pl.emgie.ocaexamquestionsapp.exceptions.AttachmentRepositoryException;

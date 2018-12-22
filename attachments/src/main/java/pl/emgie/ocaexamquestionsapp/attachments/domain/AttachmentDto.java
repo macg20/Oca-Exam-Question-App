@@ -1,4 +1,4 @@
-package pl.emgie.ocaexamquestionsapp.attachments;
+package pl.emgie.ocaexamquestionsapp.attachments.domain;
 
 import javax.validation.constraints.NotNull;
 

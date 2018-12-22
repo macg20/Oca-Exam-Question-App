@@ -3,8 +3,8 @@ package pl.emgie.ocaexamquestionsapp.attachments.infrastructures;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.emgie.ocaexamquestionsapp.attachments.AttachmentDto;
-import pl.emgie.ocaexamquestionsapp.attachments.AttachmentService;
+import pl.emgie.ocaexamquestionsapp.attachments.domain.AttachmentDto;
+import pl.emgie.ocaexamquestionsapp.attachments.domain.AttachmentService;
 
 import java.nio.file.Path;
 
@@ -26,8 +26,14 @@ class AttachmentRestService {
     }
 
     @GetMapping(value = "/", params = {"path"})
-    public AttachmentDto readAttachment(@RequestParam("path") String path) {
+    AttachmentDto readAttachment(@RequestParam("path") String path) {
         AttachmentDto dto = attachmentService.read(path);
         return dto;
     }
+
+    @GetMapping("/test")
+    ResponseEntity<?> testMicrosevices() {
+        return ResponseEntity.ok("It's ok!");
+    }
+
 }
