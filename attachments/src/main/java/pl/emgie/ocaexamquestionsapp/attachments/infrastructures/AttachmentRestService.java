@@ -20,7 +20,7 @@ class AttachmentRestService {
     }
 
     @PostMapping("/")
-     ResponseEntity<?> insertAttachment(AttachmentDto attachmentDto) {
+     ResponseEntity<?> insertAttachment(@RequestBody AttachmentDto attachmentDto) {
         Path filePath = attachmentService.insert(attachmentDto.getName(), attachmentDto.getContent());
         return ResponseEntity.ok(filePath.toAbsolutePath());
     }

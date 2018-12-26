@@ -28,7 +28,6 @@
 
     <modules>
         <module>questions</module>
-        <module>infrastructures</module>
         <module>attachments</module>
         <module>commons</module>
         <module>eureka-server</module>

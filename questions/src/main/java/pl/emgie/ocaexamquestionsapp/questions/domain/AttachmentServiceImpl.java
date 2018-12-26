@@ -1,7 +1,8 @@
-package pl.emgie.ocaexamquestionsapp.attachments.domain;
+package pl.emgie.ocaexamquestionsapp.questions.domain;
 
 import org.springframework.stereotype.Service;
 import pl.emgie.ocaexamquestionsapp.exceptions.AttachmentRepositoryException;
+import pl.emgie.ocaexamquestionsapp.questions.dto.AttachmentDto;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,6 +13,7 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 class AttachmentServiceImpl implements AttachmentService {
@@ -25,14 +27,13 @@ class AttachmentServiceImpl implements AttachmentService {
     @Override
     public Path insert(String name, byte[] content) {
         try {
-            //TODO - change by id and save in repository e.g redis
-            String fileName = repositoryPath.toString() + "\\" + name;
+            String fileName = repositoryPath.toString() +"\\" +name;
             Path path = Paths.get(fileName);
             Files.write(path, content);
             return path;
         } catch (IOException e) {
-            getLogger().error("Cannot insert attachment", e);
-            throw new AttachmentRepositoryException("Cannot insert attachment", e);
+            getLogger().error("Cannot insert attachment",e);
+            throw new AttachmentRepositoryException("Cannot insert attachment",e);
         }
     }
 
@@ -42,8 +43,8 @@ class AttachmentServiceImpl implements AttachmentService {
             byte[] content = Files.readAllBytes(Paths.get(path));
             return toDto(content);
         } catch (IOException e) {
-            getLogger().error("Cannot read attachment", e);
-            throw new AttachmentRepositoryException("Cannot read attachment", e);
+            getLogger().error("Cannot read attachment",e);
+            throw new AttachmentRepositoryException("Cannot read attachment",e);
         }
     }
 
@@ -52,8 +53,8 @@ class AttachmentServiceImpl implements AttachmentService {
         try {
             Files.delete(Paths.get(path));
         } catch (IOException e) {
-            getLogger().error("Cannot delete attachment", e);
-            throw new AttachmentRepositoryException("Cannot delete attachment", e);
+            getLogger().error("Cannot delete attachment",e);
+            throw new AttachmentRepositoryException("Cannot delete attachment",e);
         }
     }
 
@@ -64,10 +65,10 @@ class AttachmentServiceImpl implements AttachmentService {
             try {
                 Set<PosixFilePermission> permissions = fullyPermissions();
                 FileAttribute<Set<PosixFilePermission>> attributes = PosixFilePermissions.asFileAttribute(permissions);
-                Files.createDirectory(Paths.get(repositoryPath), attributes);
+                Files.createDirectory(Paths.get(repositoryPath),attributes);
             } catch (IOException e) {
-                getLogger().error("Cannot initialize attachment repository", e);
-                throw new AttachmentRepositoryException("Cannot initialize attachment repository", e);
+                getLogger().error("Cannot initialize attachment repository" ,e);
+                throw new AttachmentRepositoryException("Cannot initialize attachment repository" ,e);
             }
         }
         return Paths.get(repositoryPath);
