@@ -2,7 +2,7 @@ package pl.emgie.ocaexamquestionsapp.questions.domain;
 
 class Answer {
 
-    private String answerId;
+    private String id;
     private String answer;
 
     public String getAnswer() {
@@ -13,11 +13,11 @@ class Answer {
         this.answer = answer;
     }
 
-    public String getAnswerId() {
-        return answerId;
+    public String getId() {
+        return id;
     }
 
-    public void setAnswerId(String answerId) {
-        this.answerId = answerId;
+    public void setId(String id) {
+        this.id = id;
     }
 }

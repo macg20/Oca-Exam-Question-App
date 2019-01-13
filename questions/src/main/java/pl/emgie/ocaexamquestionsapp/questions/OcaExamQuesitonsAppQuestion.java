@@ -8,9 +8,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication(scanBasePackages = "pl.emgie.ocaexamquestionsapp")
 @EnableDiscoveryClient
 @EnableFeignClients
-public class OcaExamQuesitonsApp {
+public class OcaExamQuesitonsAppQuestion {
 
     public static void main(String[] args) {
-        SpringApplication.run(OcaExamQuesitonsApp.class, args);
+        SpringApplication.run(OcaExamQuesitonsAppQuestion.class, args);
     }
 }

@@ -57,11 +57,11 @@ class DummyTestData {
 
     private static List<AnswerDto> answersDto() {
         AnswerDto answerDto1 = new AnswerDto()
-        answerDto1.setAnswerId("A")
+        answerDto1.setId("A")
         answerDto1.setAnswer("Yes")
 
         AnswerDto answerDto2 = new AnswerDto()
-        answerDto2.setAnswerId("B")
+        answerDto2.setId("B")
         answerDto2.setAnswer("No")
 
         return List.of(answerDto1, answerDto2)

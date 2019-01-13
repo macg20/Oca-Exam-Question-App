@@ -21,6 +21,8 @@ public class QuestionDto {
 
     private List<AttachmentDto> attachments = new ArrayList<>();
 
+    private String description;
+
     public String getId() {
         return id;
     }
@@ -67,5 +69,13 @@ public class QuestionDto {
 
     public void setAttachments(List<AttachmentDto> attachments) {
         this.attachments = attachments;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -1,4 +1,4 @@
-package pl.emgie.ocaexamquestionsapp.exceptions;
+package pl.emgie.ocaexamquestionsapp.commons.exceptions;
 
 public class OcaExamApplicationException extends RuntimeException {
 

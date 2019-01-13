@@ -1,7 +1,7 @@
 package pl.emgie.ocaexamquestionsapp.questions.domain;
 
 import org.springframework.stereotype.Service;
-import pl.emgie.ocaexamquestionsapp.exceptions.AttachmentRepositoryException;
+import pl.emgie.ocaexamquestionsapp.commons.exceptions.AttachmentRepositoryException;
 import pl.emgie.ocaexamquestionsapp.questions.dto.AttachmentDto;
 
 import java.io.IOException;
@@ -13,7 +13,6 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Service
 class AttachmentServiceImpl implements AttachmentService {

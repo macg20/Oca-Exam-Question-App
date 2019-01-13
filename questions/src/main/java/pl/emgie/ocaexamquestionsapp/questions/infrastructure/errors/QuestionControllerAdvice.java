@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import pl.emgie.ocaexamquestionsapp.exceptions.AttachmentRepositoryException;
-import pl.emgie.ocaexamquestionsapp.exceptions.InvalidParameterException;
+import pl.emgie.ocaexamquestionsapp.commons.exceptions.AttachmentRepositoryException;
+import pl.emgie.ocaexamquestionsapp.commons.exceptions.InvalidParameterException;
 
 @ControllerAdvice
 class QuestionControllerAdvice extends ResponseEntityExceptionHandler {

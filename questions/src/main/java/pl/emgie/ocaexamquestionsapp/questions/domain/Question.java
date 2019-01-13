@@ -29,6 +29,9 @@ class Question {
     @Field(type = Text)
     private List<Attachment> attachments;
 
+    @Field(type = Text)
+    private String description;
+
     public String getId() {
         return id;
     }
@@ -73,7 +76,15 @@ class Question {
         return attachments;
     }
 
-    public void setAttachments(List<pl.emgie.ocaexamquestionsapp.questions.domain.Attachment> attachments) {
+    public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

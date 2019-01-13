@@ -10,7 +10,6 @@ import pl.emgie.ocaexamquestionsapp.questions.dto.AnswerDto;
 import pl.emgie.ocaexamquestionsapp.questions.dto.AttachmentDto;
 import pl.emgie.ocaexamquestionsapp.questions.dto.QuestionDto;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -74,6 +73,7 @@ public class QuestionServiceImpl implements QuestionService {
         dto.setId(question.getId());
         dto.setAnswerId(question.getAnswerId());
         dto.setTags(question.getTags());
+        dto.setDescription(question.getDescription());
         dto.setAnswers(question.getAnswers().stream().map(this::toDto).collect(Collectors.toList()));
 //        dto.setAttachments(readAttachments(question.getAttachments()));
         return dto;
@@ -91,6 +91,7 @@ public class QuestionServiceImpl implements QuestionService {
         question.setAnswerId(dto.getAnswerId());
         question.setAnswers(dto.getAnswers().stream().map(this::toDocument).collect(Collectors.toList()));
         question.setTags(dto.getTags());
+        question.setDescription(dto.getDescription());
 //        question.setAttachments(insertAttachments(dto.getAttachments()));
         return question;
     }
@@ -98,7 +99,7 @@ public class QuestionServiceImpl implements QuestionService {
     private Answer toDocument(AnswerDto dto) {
         Answer answer = new Answer();
         answer.setAnswer(dto.getAnswer());
-        answer.setAnswerId(dto.getAnswerId());
+        answer.setId(dto.getId());
         return answer;
     }
 

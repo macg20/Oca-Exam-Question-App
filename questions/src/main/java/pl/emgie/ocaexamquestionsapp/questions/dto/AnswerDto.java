@@ -5,16 +5,16 @@ import javax.validation.constraints.NotNull;
 public class AnswerDto {
 
     @NotNull
-    private String answerId;
+    private String id;
     @NotNull
     private String answer;
 
-    public String getAnswerId() {
-        return answerId;
+    public String getId() {
+        return id;
     }
 
-    public void setAnswerId(String answerId) {
-        this.answerId = answerId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getAnswer() {

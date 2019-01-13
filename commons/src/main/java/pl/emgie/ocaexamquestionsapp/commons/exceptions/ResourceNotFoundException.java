@@ -1,4 +1,4 @@
-package pl.emgie.ocaexamquestionsapp.exceptions;
+package pl.emgie.ocaexamquestionsapp.commons.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,7 +1,7 @@
 package pl.emgie.ocaexamquestionsapp.attachments.domain;
 
 import org.springframework.stereotype.Service;
-import pl.emgie.ocaexamquestionsapp.exceptions.AttachmentRepositoryException;
+import pl.emgie.ocaexamquestionsapp.commons.exceptions.AttachmentRepositoryException;
 
 import java.io.IOException;
 import java.nio.file.Files;
