@@ -15,12 +15,12 @@ class AttachmentRestService {
     private AttachmentService attachmentService;
 
     @Autowired
-     AttachmentRestService(AttachmentService attachmentService) {
+    AttachmentRestService(AttachmentService attachmentService) {
         this.attachmentService = attachmentService;
     }
 
     @PostMapping("/")
-     ResponseEntity<?> insertAttachment(@RequestBody AttachmentDto attachmentDto) {
+    ResponseEntity<?> insertAttachment(@RequestBody AttachmentDto attachmentDto) {
         Path filePath = attachmentService.insert(attachmentDto.getName(), attachmentDto.getContent());
         return ResponseEntity.ok(filePath.toAbsolutePath());
     }
@@ -29,11 +29,6 @@ class AttachmentRestService {
     AttachmentDto readAttachment(@RequestParam("path") String path) {
         AttachmentDto dto = attachmentService.read(path);
         return dto;
-    }
-
-    @GetMapping("/test")
-    ResponseEntity<?> testMicrosevices() {
-        return ResponseEntity.ok("It's ok!");
     }
 
 }

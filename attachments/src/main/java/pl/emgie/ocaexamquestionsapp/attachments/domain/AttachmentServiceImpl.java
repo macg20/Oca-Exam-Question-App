@@ -30,7 +30,7 @@ class AttachmentServiceImpl implements AttachmentService {
             Path path = Paths.get(fileName);
             Files.write(path, content);
             return path;
-        } catch (IOException e) {
+        } catch (Exception e) {
             getLogger().error("Cannot insert attachment", e);
             throw new AttachmentRepositoryException("Cannot insert attachment", e);
         }
