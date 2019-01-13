@@ -5,14 +5,19 @@ import com.google.gson.Gson
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.cloud.netflix.ribbon.RibbonAutoConfiguration
+import org.springframework.cloud.openfeign.FeignAutoConfiguration
+import org.springframework.cloud.openfeign.ribbon.FeignRibbonClientAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import pl.emgie.ocaexamquestionsapp.questions.domain.QuestionService
+import pl.emgie.ocaexamquestionsapp.questions.domain.fegin.AtachmentServiceProxy
 import pl.emgie.ocaexamquestionsapp.questions.dto.QuestionDto
 import spock.lang.Specification
 import spock.mock.DetachedMockFactory
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
@@ -22,6 +27,7 @@ import static pl.emgie.ocaexamquestionsapp.questions.data.DummyTestData.*
 
 
 @WebMvcTest
+@ImportAutoConfiguration(classes =[RibbonAutoConfiguration , FeignRibbonClientAutoConfiguration , FeignAutoConfiguration])
 class QuestionRestApiTest extends Specification {
 
 
@@ -32,6 +38,9 @@ class QuestionRestApiTest extends Specification {
     QuestionService questionService
 
     @Autowired
+    AtachmentServiceProxy atachmentServiceProxy
+
+    @Autowired
     ObjectMapper objectMapper
 
     def saveTest() {
@@ -39,6 +48,7 @@ class QuestionRestApiTest extends Specification {
         QuestionDto request = prepareData()
 
         and:
+        atachmentServiceProxy.insertAttachment(_) >> "DummyString"
         questionService.save(request) >> preapreDataWithId()
 
         when:
@@ -95,6 +105,11 @@ class QuestionRestApiTest extends Specification {
         @Bean
         QuestionService testQuestionService() {
             return detachedMockFactory.Stub(QuestionService)
+        }
+
+        @Bean
+        AtachmentServiceProxy testAttachmentServiceProxy() {
+            detachedMockFactory.Stub(AtachmentServiceProxy)
         }
 
     }
