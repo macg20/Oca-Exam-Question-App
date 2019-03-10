@@ -6,9 +6,9 @@ import org.springframework.data.domain.PageRequest
 import pl.emgie.ocaexamquestionsapp.questions.dto.AnswerDto
 import pl.emgie.ocaexamquestionsapp.questions.dto.QuestionDto
 
-class DummyTestData {
+import java.security.SecureRandom
 
-    static final String QUESTION_ID = "sadsadweqwqeqwewereregfgdsg"
+class DummyTestData {
 
     static QuestionDto prepareData() {
         QuestionDto dto = prepareSimpleData()
@@ -17,7 +17,7 @@ class DummyTestData {
 
     static QuestionDto preapreDataWithId() {
         QuestionDto dto = prepareSimpleData()
-        dto.setId(QUESTION_ID)
+        dto.setId(questionId())
         return dto
     }
 
@@ -33,17 +33,17 @@ class DummyTestData {
     static List<QuestionDto> questionDtos() {
 
         QuestionDto dto1 = new QuestionDto()
-        dto1.setId("dasdasdas+1")
+        dto1.setId(new BigInteger("1"))
         dto1.setAnswerId("A")
         dto1.setQuestion("First question -1")
 
         QuestionDto dto2 = new QuestionDto()
-        dto2.setId("dasdasdas+2")
+        dto2.setId(new BigInteger("2"))
         dto2.setAnswerId("B")
         dto2.setQuestion("Second question - 2")
 
         QuestionDto dto3 = new QuestionDto()
-        dto3.setId("dasdasdas+3")
+        dto3.setId(new BigInteger("3"))
         dto3.setAnswerId("A")
         dto3.setQuestion("Third question - 3")
 
@@ -55,15 +55,19 @@ class DummyTestData {
         return new PageImpl<>(dtos, PageRequest.of(1, 5), dtos.size())
     }
 
-    private static List<AnswerDto> answersDto() {
+    static List<AnswerDto> answersDto() {
         AnswerDto answerDto1 = new AnswerDto()
-        answerDto1.setId("A")
+        answerDto1.setAnswerNumber("A")
         answerDto1.setAnswer("Yes")
 
         AnswerDto answerDto2 = new AnswerDto()
-        answerDto2.setId("B")
+        answerDto2.setAnswerNumber("B")
         answerDto2.setAnswer("No")
 
         return List.of(answerDto1, answerDto2)
+    }
+
+    static BigInteger questionId() {
+       return BigInteger.TEN
     }
 }

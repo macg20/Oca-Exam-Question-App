@@ -1,17 +1,19 @@
 package pl.emgie.ocaexamquestionsapp.questions.dto;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class QuestionDto {
 
-    private String id;
+    private BigInteger id;
 
     @NotNull
     private String question;
 
-    private String[] tags;
+    private Set<String> tags;
 
     @NotNull
     private String answerId;
@@ -23,11 +25,11 @@ public class QuestionDto {
 
     private String description;
 
-    public String getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 
@@ -39,11 +41,11 @@ public class QuestionDto {
         this.question = question;
     }
 
-    public String[] getTags() {
+    public Set<String> getTags() {
         return tags;
     }
 
-    public void setTags(String[] tags) {
+    public void setTags(Set<String> tags) {
         this.tags = tags;
     }
 

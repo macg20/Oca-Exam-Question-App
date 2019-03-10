@@ -12,6 +12,7 @@ import pl.emgie.ocaexamquestionsapp.questions.domain.QuestionService;
 import pl.emgie.ocaexamquestionsapp.questions.dto.QuestionDto;
 
 import javax.validation.Valid;
+import java.math.BigInteger;
 import java.util.Optional;
 
 @RestController
@@ -36,7 +37,7 @@ class QuestionRestService {
     }
 
     @DeleteMapping(value = "/del/", params = {"questionId"})
-    ResponseEntity<?> delete(@Param("questionId") String questionId) {
+    ResponseEntity<?> delete(@Param("questionId") BigInteger questionId) {
         questionService.delete(questionId);
         return ResponseEntity.ok(HttpStatus.OK);
     }

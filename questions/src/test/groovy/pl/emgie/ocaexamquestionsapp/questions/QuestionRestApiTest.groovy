@@ -61,13 +61,13 @@ class QuestionRestApiTest extends Specification {
 
     def deleteTest() {
         given:
-        String id = QUESTION_ID
+        BigInteger id = questionId()
 
         and:
         questionService.delete(id) >> {}
 
         when:
-        def result = mvc.perform(delete('/questions/del/').param("questionId", id))
+        def result = mvc.perform(delete('/questions/del/').param("questionId", id.toString()))
 
         then:
         result.andExpect(status().isOk())
@@ -75,7 +75,9 @@ class QuestionRestApiTest extends Specification {
     }
 
     String toJson(QuestionDto questionDto) {
+
         Gson gson = new Gson()
+        print(gson.toJson(questionDto, QuestionDto.class))
         return gson.toJson(questionDto, QuestionDto.class)
     }
 
