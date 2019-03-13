@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.emgie.ocaexamquestionsapp.commons.exceptions.InvalidParameterException;
@@ -16,7 +17,7 @@ import java.math.BigInteger;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/questions")
+@RequestMapping(value = "/questions", produces = {"application/json;charset=UTF-8"})
 class QuestionRestService {
 
     private QuestionService questionService;

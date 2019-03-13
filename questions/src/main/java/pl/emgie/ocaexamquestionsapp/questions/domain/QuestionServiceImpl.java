@@ -1,6 +1,5 @@
 package pl.emgie.ocaexamquestionsapp.questions.domain;
 
-import jdk.jshell.spi.ExecutionControl;
 import org.apache.commons.lang.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -49,7 +48,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public QuestionDto save(QuestionDto dto) {
-        QuestionEntity question = toDocument(dto);
+        QuestionEntity question = toEntity(dto);
 //        insertAttachments(dto.getAttachments());
         question = repository.save(question);
         return toDto(question);
@@ -58,7 +57,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void delete(BigInteger questionId) {
         Optional<QuestionEntity> question = repository.findById(questionId);
-       question.ifPresent(q-> deleteAttachments(q.getQuestionAttachments()));
+        question.ifPresent(q -> deleteAttachments(q.getQuestionAttachments()));
         question.ifPresent(repository::delete);
     }
 
@@ -79,39 +78,46 @@ public class QuestionServiceImpl implements QuestionService {
 //        return dto;
 //    }
 
-    private QuestionEntity toDocument(QuestionDto dto) {
+    private QuestionEntity toEntity(QuestionDto dto) {
         QuestionEntity question = new QuestionEntity();
         question.setQuestion(dto.getQuestion());
         question.setAnswerId(dto.getAnswerId());
-//        question.setAnswers(dto.getAnswers().stream().map(this::toDocument).collect(Collectors.toList()));
-//        question.setTags(mapTags);
+        question.setAnswers(dto.getAnswers().stream().map(this::toEntity).collect(Collectors.toList()));
+
+        Optional<Set<String>> tags = Optional.ofNullable(dto.getTags());
+        tags.ifPresent(e-> question.setTags(e.stream().map(this::toEntity).collect(Collectors.toSet())));
+
         question.setDescription(dto.getDescription());
-//        question.setAttachments(insertAttachments(dto.getAttachments()));
+        question.setQuestionAttachments(insertAttachments(Optional.ofNullable(dto.getAttachments()).orElse(Collections.emptyList())));
         return question;
     }
 
-//    private AnswerEntity toDocument(AnswerDto dto) {
-//        AnswerEntity answer = new AnswerEntity();
-//        answer.setAnswer(dto.getAnswer());
-//        answer.setAnswerNumber(dto.getAnswerNumber());
-//        return answer;
-//    }
+    private AnswerEntity toEntity(AnswerDto dto) {
+        AnswerEntity answer = new AnswerEntity();
+        answer.setAnswer(dto.getAnswer());
+        answer.setAnswerNumber(dto.getAnswerNumber());
+        return answer;
+    }
 
-//    private List<Attachment> insertAttachments(List<AttachmentDto> dtos) {
-//        if (dtos != null) {
-//            List<Attachment> attachments = new ArrayList<>();
-//            dtos.forEach(dto -> {
-//                String attachmentPath = atachmentServiceProxy.insertAttachment(dto);
-//                Attachment attachment = new Attachment();
-//                attachment.setName(dto.getName());
-//                attachment.setPath(attachmentPath.toString());
-//                attachments.add(attachment);
-//            });
-//            return attachments;
-//        }
-//
-//        return Collections.<Attachment>emptyList();
-//    }
+    private TagEntity toEntity(String dto) {
+        TagEntity tag = new TagEntity();
+        tag.setName(dto.toUpperCase());
+        return tag;
+    }
+
+    private List<QuestionAttachmentId> insertAttachments(List<AttachmentDto> dtos) {
+        if (dtos != null) {
+            List<QuestionAttachmentId> attachments = new ArrayList<>();
+            dtos.forEach(dto -> {
+                BigInteger attachmentId = atachmentServiceProxy.insertAttachment(dto);
+                QuestionAttachmentId attachment = new QuestionAttachmentId();
+                attachment.setAttachment(attachmentId);
+                attachments.add(attachment);
+            });
+            return attachments;
+        }
+        return Collections.emptyList();
+    }
 
     private List<AttachmentDto> readAttachments(List<QuestionAttachmentId> attachments) {
         if (attachments != null) {
@@ -137,6 +143,6 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     private Set<String> magTagsToString(Set<TagEntity> tags) {
-        return tags!=null ? tags.stream().map(TagEntity::getName).collect(Collectors.toSet()) : Collections.emptySet();
+        return tags != null ? tags.stream().map(TagEntity::getName).collect(Collectors.toSet()) : Collections.emptySet();
     }
 }

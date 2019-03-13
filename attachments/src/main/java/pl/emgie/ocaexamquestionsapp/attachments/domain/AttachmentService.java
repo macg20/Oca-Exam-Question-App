@@ -4,6 +4,7 @@ package pl.emgie.ocaexamquestionsapp.attachments.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigInteger;
 import java.nio.file.Path;
 
 public interface AttachmentService {
@@ -12,10 +13,10 @@ public interface AttachmentService {
         return LoggerFactory.getLogger(getClass());
     }
 
-    Path insert(String name, byte[] content);
+    BigInteger insert(String name, byte[] content);
 
-    AttachmentDto read(String path);
+    AttachmentDto read(BigInteger id);
 
-    void delete(String path);
+    void delete(BigInteger id);
 
 }

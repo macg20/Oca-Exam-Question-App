@@ -1,90 +1,61 @@
 package pl.emgie.ocaexamquestionsapp.attachments.domain;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.emgie.ocaexamquestionsapp.commons.exceptions.AttachmentRepositoryException;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.FileAttribute;
-import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.PosixFilePermissions;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Optional;
 
 @Service
-class AttachmentServiceImpl implements AttachmentService {
+@Transactional
+public class AttachmentServiceImpl implements AttachmentService {
 
-    private Path repositoryPath;
+    private AttachmentRepository attachmentRepository;
+    private FileStorageService fileStorageService;
 
-    public AttachmentServiceImpl() {
-        this.repositoryPath = generateAttachmentRepositoryPath();
+    @Autowired
+    public AttachmentServiceImpl(AttachmentRepository attachmentRepository, FileStorageService fileStorageService) {
+        this.attachmentRepository = attachmentRepository;
+        this.fileStorageService = fileStorageService;
     }
 
     @Override
-    public Path insert(String name, byte[] content) {
-        try {
-            //TODO - change by id and save in repository e.g redis
-            String fileName = repositoryPath.toString() + "\\" + name;
-            Path path = Paths.get(fileName);
-            Files.write(path, content);
-            return path;
-        } catch (Exception e) {
-            getLogger().error("Cannot insert attachment", e);
-            throw new AttachmentRepositoryException("Cannot insert attachment", e);
-        }
+    public BigInteger insert(String name, byte[] content) {
+        Path path = fileStorageService.insertFile(name, content);
+        AttachmentEntity attachment = createAttachment(name, path);
+        attachment = attachmentRepository.save(attachment);
+        return attachment.getId();
     }
 
     @Override
-    public AttachmentDto read(String path) {
-        try {
-            byte[] content = Files.readAllBytes(Paths.get(path));
-            return toDto(content);
-        } catch (IOException e) {
-            getLogger().error("Cannot read attachment", e);
-            throw new AttachmentRepositoryException("Cannot read attachment", e);
-        }
+    public AttachmentDto read(BigInteger id) {
+        AttachmentEntity attachmentEntity = attachmentRepository.findById(id).get();
+        byte[] content = fileStorageService.readFile(attachmentEntity.getPath());
+        return toDto(content);
     }
 
     @Override
-    public void delete(String path) {
-        try {
-            Files.delete(Paths.get(path));
-        } catch (IOException e) {
-            getLogger().error("Cannot delete attachment", e);
-            throw new AttachmentRepositoryException("Cannot delete attachment", e);
-        }
+    public void delete(BigInteger id) {
+       Optional<AttachmentEntity> attachmentEntity = attachmentRepository.findById(id);
+       attachmentEntity.ifPresent(this::deleteAttachment);
     }
 
-    private Path generateAttachmentRepositoryPath() {
-        String userdir = System.getProperty("user.home");
-        String repositoryPath = userdir + ("\\attachments");
-        if (!Files.exists(Paths.get(repositoryPath))) {
-            try {
-                Set<PosixFilePermission> permissions = fullyPermissions();
-                FileAttribute<Set<PosixFilePermission>> attributes = PosixFilePermissions.asFileAttribute(permissions);
-                Files.createDirectory(Paths.get(repositoryPath), attributes);
-            } catch (IOException e) {
-                getLogger().error("Cannot initialize attachment repository", e);
-                throw new AttachmentRepositoryException("Cannot initialize attachment repository", e);
-            }
-        }
-        return Paths.get(repositoryPath);
+    private void deleteAttachment(AttachmentEntity e) {
+        fileStorageService.delete(e.getPath());
+        attachmentRepository.delete(e);
     }
 
-    private Set<PosixFilePermission> fullyPermissions() {
-        Set<PosixFilePermission> filePermissions = new HashSet<>();
-        filePermissions.add(PosixFilePermission.OTHERS_EXECUTE);
-        filePermissions.add(PosixFilePermission.OTHERS_WRITE);
-        filePermissions.add(PosixFilePermission.OTHERS_READ);
-        filePermissions.add(PosixFilePermission.GROUP_EXECUTE);
-        filePermissions.add(PosixFilePermission.GROUP_WRITE);
-        filePermissions.add(PosixFilePermission.GROUP_READ);
-        filePermissions.add(PosixFilePermission.OWNER_EXECUTE);
-        filePermissions.add(PosixFilePermission.OWNER_READ);
-        filePermissions.add(PosixFilePermission.OWNER_WRITE);
-        return filePermissions;
+    private AttachmentEntity createAttachment(String name, Path path) {
+        AttachmentEntity attachment = new AttachmentEntity();
+        attachment.setName(name);
+        attachment.setPath(path.toString());
+        return attachment;
     }
 
     private AttachmentDto toDto(byte[] content) {
@@ -92,6 +63,5 @@ class AttachmentServiceImpl implements AttachmentService {
         dto.setContent(content);
         return dto;
     }
-
 
 }

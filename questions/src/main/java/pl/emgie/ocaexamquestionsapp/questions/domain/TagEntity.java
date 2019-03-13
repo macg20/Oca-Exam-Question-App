@@ -29,8 +29,4 @@ public class TagEntity {
         this.name = name;
     }
 
-    public TagEntity(BigInteger id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 }
