@@ -1,11 +1,16 @@
 package pl.emgie.ocaexamquestionsapp.questions.domain;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.math.BigInteger;
 
 @Entity
 @Table(name="answers")
+@Getter
+@Setter
 class AnswerEntity {
 
     @Id
@@ -15,29 +20,5 @@ class AnswerEntity {
     private String answerNumber;
     private String answer;
 
-    public String getAnswer() {
-        return answer;
-    }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public BigInteger getId() {
-        return id;
-    }
-
-    public void setId(BigInteger id) {
-        this.id = id;
-    }
-
-
-
-    public String getAnswerNumber() {
-        return answerNumber;
-    }
-
-    public void setAnswerNumber(String answerNumber) {
-        this.answerNumber = answerNumber;
-    }
 }

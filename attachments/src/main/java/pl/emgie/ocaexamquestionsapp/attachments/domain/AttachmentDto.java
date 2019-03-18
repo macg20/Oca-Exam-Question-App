@@ -1,27 +1,16 @@
 package pl.emgie.ocaexamquestionsapp.attachments.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.constraints.NotNull;
 
+@Getter
+@Setter
 public class AttachmentDto {
 
     @NotNull
     private String name;
     @NotNull
     private byte[] content;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public byte[] getContent() {
-        return content;
-    }
-
-    public void setContent(byte[] content) {
-        this.content = content;
-    }
 }
