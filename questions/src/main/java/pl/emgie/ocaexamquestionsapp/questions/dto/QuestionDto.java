@@ -13,7 +13,7 @@ public class QuestionDto {
     @NotNull
     private String question;
 
-    private Set<String> tags;
+    private Set<TagDto> tags;
 
     @NotNull
     private String answerId;
@@ -21,7 +21,7 @@ public class QuestionDto {
     @NotNull
     private List<AnswerDto> answers = new ArrayList<>();
 
-    private List<AttachmentDto> attachments = new ArrayList<>();
+    private List<BigInteger> attachments = new ArrayList<>();
 
     private String description;
 
@@ -41,11 +41,11 @@ public class QuestionDto {
         this.question = question;
     }
 
-    public Set<String> getTags() {
+    public Set<TagDto> getTags() {
         return tags;
     }
 
-    public void setTags(Set<String> tags) {
+    public void setTags(Set<TagDto> tags) {
         this.tags = tags;
     }
 
@@ -65,11 +65,11 @@ public class QuestionDto {
         this.answers = answers;
     }
 
-    public List<AttachmentDto> getAttachments() {
+    public List<BigInteger> getAttachments() {
         return attachments;
     }
 
-    public void setAttachments(List<AttachmentDto> attachments) {
+    public void setAttachments(List<BigInteger> attachments) {
         this.attachments = attachments;
     }
 

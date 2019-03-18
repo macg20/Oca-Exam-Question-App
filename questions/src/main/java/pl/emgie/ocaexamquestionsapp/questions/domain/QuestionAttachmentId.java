@@ -8,6 +8,10 @@ public class QuestionAttachmentId {
 
     private BigInteger attachment;
 
+    public QuestionAttachmentId(BigInteger attachment) {
+        this.attachment = attachment;
+    }
+
     public BigInteger getAttachment() {
         return attachment;
     }
