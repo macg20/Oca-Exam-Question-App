@@ -1,4 +1,4 @@
-package pl.emgie.ocaexamquestionsapp.attachments.domain;
+package pl.emgie.ocaexamquestionsapp.attachments.dto;
 
 import lombok.Getter;
 import lombok.Setter;
