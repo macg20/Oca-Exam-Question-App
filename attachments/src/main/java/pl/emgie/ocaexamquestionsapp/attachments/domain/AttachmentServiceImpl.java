@@ -3,7 +3,6 @@ package pl.emgie.ocaexamquestionsapp.attachments.domain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.emgie.ocaexamquestionsapp.attachments.dto.AttachmentDto;
 
 import java.math.BigInteger;
 import java.nio.file.Path;

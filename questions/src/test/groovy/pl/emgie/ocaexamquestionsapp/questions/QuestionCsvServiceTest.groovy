@@ -2,7 +2,7 @@ package pl.emgie.ocaexamquestionsapp.questions
 
 
 import org.springframework.test.context.ActiveProfiles
-import pl.emgie.ocaexamquestionsapp.questions.domain.CsvReaderService
+import pl.emgie.ocaexamquestionsapp.questions.domain.QuestionCsvReader
 import pl.emgie.ocaexamquestionsapp.questions.dto.QuestionCsvFile
 import spock.lang.Specification
 
@@ -20,7 +20,7 @@ class QuestionCsvServiceTest extends Specification {
         csv.setSeparator(";")
 
         when:
-        List<String[]> result = CsvReaderService.readCsv(csv)
+        List<String[]> result = QuestionCsvReader.readCsv(csv)
 
         then:
         result.size() == 2

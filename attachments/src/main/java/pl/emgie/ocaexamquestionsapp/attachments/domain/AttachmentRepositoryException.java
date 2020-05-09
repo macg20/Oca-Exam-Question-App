@@ -1,6 +1,6 @@
-package pl.emgie.ocaexamquestionsapp.commons.exceptions;
+package pl.emgie.ocaexamquestionsapp.attachments.domain;
 
-public class AttachmentRepositoryException extends OcaExamApplicationException{
+public class AttachmentRepositoryException extends RuntimeException {
 
     public AttachmentRepositoryException() {
     }

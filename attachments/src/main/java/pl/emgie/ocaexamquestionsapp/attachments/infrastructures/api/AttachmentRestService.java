@@ -1,10 +1,10 @@
-package pl.emgie.ocaexamquestionsapp.attachments.infrastructures;
+package pl.emgie.ocaexamquestionsapp.attachments.infrastructures.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.emgie.ocaexamquestionsapp.attachments.dto.AttachmentDto;
+import pl.emgie.ocaexamquestionsapp.attachments.domain.AttachmentDto;
 import pl.emgie.ocaexamquestionsapp.attachments.domain.AttachmentService;
 
 import java.math.BigInteger;

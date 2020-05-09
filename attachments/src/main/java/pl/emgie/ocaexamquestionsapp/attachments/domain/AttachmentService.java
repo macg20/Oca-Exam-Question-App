@@ -3,7 +3,6 @@ package pl.emgie.ocaexamquestionsapp.attachments.domain;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.emgie.ocaexamquestionsapp.attachments.dto.AttachmentDto;
 
 import java.math.BigInteger;
 

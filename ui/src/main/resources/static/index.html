@@ -1,0 +1,149 @@
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script type="text/javascript">
+        var canSend  = false;
+
+        function getForm() {
+            var files = document.getElementById("attachment").files;
+            var attachments = []
+            if (files != null)
+                for (var i = 0; i < files.length; i++) {
+                    var fileName = files[i].name;
+                    var reader = new FileReader();
+                    reader.onload = function (ev) {
+                        var binaryString = ev.target.result;
+                        var base64 = btoa(binaryString);
+                        var object = {name: fileName, content: base64}
+                        attachments.push(object)
+                        callback(attachments)
+
+                    }
+                    reader.readAsBinaryString(files[i]);
+                }
+        }
+
+        function getAnswers() {
+            var list = [];
+            for (var i = 1; i < 5; i++) {
+                var id = "answer" + i;
+                var answerText = document.getElementById(id).value;
+                var object = {id: determineAnswerId(i), answer: answerText};
+                list.push(object);
+            }
+            return list;
+        }
+
+        function getTruthAnswer() {
+            var select = document.getElementById("id")
+            var text = select.options[select.selectedIndex].text;
+            return text;
+        }
+
+        function determineAnswerId(idx) {
+            switch (idx) {
+                case 1:
+                    return 'A';
+                case 2:
+                    return 'B';
+                case 3:
+                    return 'C';
+                case 4:
+                    return 'D';
+            }
+        }
+
+        function callback(attachments) {
+
+            var question = document.getElementById("question").value;
+            var answers = getAnswers();
+            var id = getTruthAnswer();
+            var description = document.getElementById("description").value;
+
+            var jsonObject =
+                {
+                    question: question,
+                    answers: answers,
+                    id: id,
+                    description: description,
+                    attachments: attachments
+                }
+            console.log(JSON.stringify(jsonObject));
+            sendJson(JSON.stringify(jsonObject),"http://localhost:8762/questions-microservices-app/questions/")
+        }
+
+        function sendJson(data, url) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.setRequestHeader("Access-Control-Allow-Origin","*");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    console.log(json);
+                }
+            };
+            xhr.send(data);
+        }
+
+    </script>
+</head>
+<body>
+<p>Welcome page UI module!</p>
+<form>
+    <div class="form-group">
+        <label>Pytanie</label>
+        <input id="question" type="text" placeholder="Wprowadz pytanie">
+    </div>
+    <div class="form-group">
+        <label>Odpowiedz A</label>
+        <input id="answer1" type="text" placeholder="Wprowadz odpowiedz">
+    </div>
+    <div class="form-group">
+        <label>Odpowiedz B</label>
+        <input id="answer2" type="text" placeholder="Wprowadz odpowiedz">
+    </div>
+    <div class="form-group">
+        <label>Odpowiedz C</label>
+        <input id="answer3" type="text" placeholder="Wprowadz odpowiedz">
+    </div>
+    <div class="form-group">
+        <label>Odpowiedz D</label>
+        <input id="answer4" type="text" placeholder="Wprowadz odpowiedz">
+    </div>
+    <div class="form-group">
+        <label>Wybierz numer prawidlowej odpowiedzi</label>
+        <select id="id">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>D</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Opis poprawnej odpowiedzi</label>
+        <textarea rows="4" cols="50" name="description" id="description"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Wstaw plik</label>
+        <input class="btn btn-primary" id="attachment" type="file" name="attachment" multiple>
+    </div>
+
+    <div class="form-group">
+        <input class="btn btn-primary" type="button" value="Send data" onclick="getForm()">
+    </div>
+</form>
+</body>
+</html>
